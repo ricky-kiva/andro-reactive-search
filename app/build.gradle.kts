@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -7,6 +9,10 @@ android {
     namespace = "com.rickyslash.reactivesearchapp"
     compileSdk = 33
 
+    val properties = Properties().apply {
+        load(project.rootProject.file("local.properties").inputStream())
+    }
+
     defaultConfig {
         applicationId = "com.rickyslash.reactivesearchapp"
         minSdk = 21
@@ -15,6 +21,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        resValue("string", "geo_api_key", properties.getProperty("geo.api.key", ""))
     }
 
     buildTypes {
